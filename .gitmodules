@@ -28,3 +28,6 @@
 [submodule "competitors/analysis-rmi"]
 	path = competitors/analysis-rmi
 	url = https://github.com/alhuan/analysis-rmi.git
+[submodule "competitors/lipp"]
+	path = competitors/lipp
+	url = https://github.com/Jiacheng-WU/lipp.git

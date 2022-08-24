@@ -3,18 +3,22 @@
 #include "../util.h"
 #include "base.h"
 #include "lipp/src/core/lipp.h"
+#include <cassert>
 
 template <class KeyType, int size_scale>
 class Lipp : public Competitor {
  public:
+  ~Lipp() { map_.~LIPP(); }
+
   uint64_t Build(const std::vector<KeyValue<KeyType>>& data) {
     std::vector<std::pair<KeyType, uint64_t>> loading_data;
     loading_data.reserve(data.size());
     // We use LIPP as a non-clustered index by only inserting every n-th entry.
     // n is defined by size_scale.
+    std::cerr << "size_scale=" << size_scale << std::endl;
     for (auto& itm : data) {
       uint64_t idx = itm.value;
-      if (size_scale > 1 && idx % size_scale != 0) continue;
+      if (size_scale > 1 && idx % 2 != 0) continue;
       loading_data.push_back(std::make_pair(itm.key, itm.value));
     }
 
@@ -25,7 +29,9 @@ class Lipp : public Competitor {
   }
 
   SearchBound EqualityLookup(const KeyType lookup_key) const {
-    uint64_t guess = map_.at(lookup_key);
+    uint64_t guess = map_.at(lookup_key, true);
+
+    assert(guess < data_size_);
 
     const uint64_t error = size_scale - 1;
 

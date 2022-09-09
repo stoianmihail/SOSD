@@ -81,30 +81,30 @@ template <class Benchmark>
 void execute_64_bit(Benchmark benchmark, bool pareto, bool only_mode,
                     std::string only, std::string filename) {
   // Build and probe individual indexes.
-  // check_only("RMI", benchmark_64_rmi(benchmark, pareto, filename));
-  // check_only("RS", benchmark_64_rs(benchmark, pareto));
-  // check_only("TS", benchmark_64_ts(benchmark, pareto));
-  // check_only("PGM", benchmark_64_pgm(benchmark, pareto));
-  // check_only("CHT", benchmark_64_cht(benchmark, pareto));
-  // check_only("ART", benchmark_64_art(benchmark, pareto));
-  // check_only("BTree", benchmark_64_btree(benchmark, pareto));
-  // check_only("IBTree", benchmark_64_ibtree(benchmark, pareto));
-  // check_only("FAST", benchmark_64_fast(benchmark, pareto));
-  // check_only("ALEX", benchmark_64_alex(benchmark, pareto));
+  check_only("RMI", benchmark_64_rmi(benchmark, pareto, filename));
+  check_only("RS", benchmark_64_rs(benchmark, pareto));
+  check_only("TS", benchmark_64_ts(benchmark, pareto));
+  check_only("PGM", benchmark_64_pgm(benchmark, pareto));
+  check_only("CHT", benchmark_64_cht(benchmark, pareto));
+  check_only("ART", benchmark_64_art(benchmark, pareto));
+  check_only("BTree", benchmark_64_btree(benchmark, pareto));
+  check_only("IBTree", benchmark_64_ibtree(benchmark, pareto));
+  check_only("FAST", benchmark_64_fast(benchmark, pareto));
+  check_only("ALEX", benchmark_64_alex(benchmark, pareto));
   check_only("LIPP", benchmark_64_lipp(benchmark, pareto));
-  // check_only("RMI_CPP", benchmark_64_rmi_cpp(benchmark, pareto));
-// #ifndef __APPLE__
-// #ifndef DISABLE_FST
-//   check_only("FST", benchmark_64_fst(benchmark, pareto));
-// #endif
-//   check_only("Wormhole", benchmark_64_wormhole(benchmark, pareto));
-// #endif
+  check_only("RMI_CPP", benchmark_64_rmi_cpp(benchmark, pareto));
+#ifndef __APPLE__
+#ifndef DISABLE_FST
+  check_only("FST", benchmark_64_fst(benchmark, pareto));
+#endif
+  check_only("Wormhole", benchmark_64_wormhole(benchmark, pareto));
+#endif
 
-//   if (benchmark.uses_binary_search()) {
-//     check_only("RBS", benchmark_64_rbs(benchmark, pareto));
-//     check_only("RobinHash", benchmark.template Run<RobinHash<uint64_t>>());
-//     check_only("BS", benchmark.template Run<BinarySearch<uint64_t>>());
-//   }
+  if (benchmark.uses_binary_search()) {
+    check_only("RBS", benchmark_64_rbs(benchmark, pareto));
+    check_only("RobinHash", benchmark.template Run<RobinHash<uint64_t>>());
+    check_only("BS", benchmark.template Run<BinarySearch<uint64_t>>());
+  }
 }
 
 int main(int argc, char* argv[]) {

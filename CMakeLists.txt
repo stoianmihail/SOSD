@@ -68,6 +68,7 @@ target_include_directories(benchmark
         PRIVATE "competitors/stx-btree-0.9/include"
         PRIVATE "competitors/ts/include"
         PRIVATE "competitors/lipp/src"
+        PRIVATE "competitors/GENE/src"
         PRIVATE "fast64")
 add_dependencies(benchmark libfast64)
 

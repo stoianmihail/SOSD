@@ -31,3 +31,6 @@
 [submodule "competitors/lipp"]
 	path = competitors/lipp
 	url = https://github.com/Jiacheng-WU/lipp.git
+[submodule "competitors/GENE"]
+	path = competitors/GENE
+	url = https://github.com/stoianmihail/GENE.git

@@ -8,6 +8,7 @@
 #include "benchmarks/benchmark_cht.h"
 #include "benchmarks/benchmark_fast64.h"
 #include "benchmarks/benchmark_fst.h"
+#include "benchmarks/benchmark_gene.h"
 #include "benchmarks/benchmark_ibtree.h"
 #include "benchmarks/benchmark_lipp.h"
 #include "benchmarks/benchmark_pgm.h"
@@ -60,7 +61,7 @@ void execute_32_bit(Benchmark benchmark, bool pareto, bool only_mode,
   check_only("FAST", benchmark_32_fast(benchmark, pareto));
   check_only("ALEX", benchmark_32_alex(benchmark, pareto));
   check_only("LIPP", benchmark_32_lipp(benchmark, pareto));
-
+  check_only("GENE", benchmark_32_gene(benchmark, pareto));
   check_only("RMI_CPP", benchmark_32_rmi_cpp(benchmark, pareto));
 #ifndef __APPLE__
 #ifndef DISABLE_FST
@@ -92,6 +93,7 @@ void execute_64_bit(Benchmark benchmark, bool pareto, bool only_mode,
   check_only("FAST", benchmark_64_fast(benchmark, pareto));
   check_only("ALEX", benchmark_64_alex(benchmark, pareto));
   check_only("LIPP", benchmark_64_lipp(benchmark, pareto));
+  check_only("GENE", benchmark_64_gene(benchmark, pareto));
   check_only("RMI_CPP", benchmark_64_rmi_cpp(benchmark, pareto));
 #ifndef __APPLE__
 #ifndef DISABLE_FST

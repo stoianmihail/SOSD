@@ -2,18 +2,16 @@
 
 #include "../util.h"
 #include "base.h"
-#include "lipp/src/core/lipp.h"
+#include "GENE/src/optimized/Index.hpp"
 #include <cassert>
 
 template <class KeyType, int size_scale>
-class Lipp : public Competitor {
+class Gene : public Competitor {
  public:
-  ~Lipp() { if (!flag) map_.~LIPP(); flag = true; }
-
   uint64_t Build(const std::vector<KeyValue<KeyType>>& data) {
     std::vector<std::pair<KeyType, uint64_t>> loading_data;
     loading_data.reserve(data.size());
-    // We use LIPP as a non-clustered index by only inserting every n-th entry.
+    // We use GENE as a non-clustered index by only inserting every n-th entry.
     // n is defined by size_scale.
     for (auto& itm : data) {
       uint64_t idx = itm.value;
@@ -23,12 +21,18 @@ class Lipp : public Competitor {
 
     data_size_ = data.size();
 
-    return util::timing(
-        [&] { map_.bulk_load(loading_data.data(), loading_data.size()); });
+    return util::timing([&] {
+      map_ = opt::Index<key_type, mapped_type>
+        ::Bulkload(data.begin(), data.end(),
+        inner_slot_size + 1, leaf_slot_size);
+    });
   }
 
   SearchBound EqualityLookup(const KeyType lookup_key) const {
-    uint64_t guess = map_.at(lookup_key, true);
+    auto raw_guess = map_.lower_bound(lookup_key);
+    assert(raw_guess.has_value());
+    auto guess = raw_guess.value();
+    assert(guess < data_size_);
 
     const uint64_t error = size_scale - 1;
     const uint64_t start = guess < error ? 0 : guess - error;
@@ -39,14 +43,13 @@ class Lipp : public Competitor {
     return (SearchBound){start, stop};
   }
 
-  std::string name() const { return "LIPP"; }
+  std::string name() const { return "GENE"; }
 
   std::size_t size() const { return map_.index_size(); }
 
   int variant() const { return size_scale; }
 
  private:
-  bool flag = false;
   uint64_t data_size_ = 0;
-  LIPP<KeyType, uint64_t> map_;
+  opt::Index<KeyType, uint64_t> map_;
 };
